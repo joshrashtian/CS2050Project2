@@ -2,13 +2,15 @@
 
 int main(int argc, char *argv[]) {
 
-  if(argc < 2) {
-    printf("%s", "Missing a file to read!");
-    return 1;
-  }
+  FILE *fp = stdin;
+  if(argc > 1) {
+    fp=fopen(argv[1], "r");
 
-  FILE *fp = fopen(argv[1], "r");
-
+    if (fp == NULL) {
+       perror(argv[1]);
+       return 1;
+    }
+  } 
   char currentChar;
   int words = -1;
   int lines = 0;
@@ -21,7 +23,8 @@ int main(int argc, char *argv[]) {
     bytes += sizeof(char);
   }
 
-  printf("%d %d %d %s\n", lines, words, bytes, argv[1]);
+  printf("%d %d %d", lines, words, bytes);
+  if(argc > 1) printf("%s\n", argv[1]); else printf("\n");
   fclose(fp);
 
   return 0;
